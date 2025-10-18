@@ -1,16 +1,77 @@
 ---
 layout: base
-title: ご要望ありがとうございました | テニスアドバイザー
+title: お問い合わせありがとうございました | TennIQ
 ---
 
 <div class="container">
   <section class="grid">
     <div class="card">
-      <h1>ご要望ありがとうございました</h1>
-      <p>いただいたご意見は今後の改善に活用させていただきます。</p>
+      <h1>お問い合わせありがとうございました</h1>
+      <p>内容を確認のうえ、必要に応じてメールでご連絡します。サブスクリプション契約中のお客様には3営業日以内に返信いたします。</p>
       <div class="actions">
         <a class="btn" href="{{ '/' | relative_url }}">トップへ戻る</a>
       </div>
     </div>
   </section>
 </div>
+
+<script>
+  (function () {
+    const ensureLayout = (titleText) => {
+      if (document.querySelector('body > .container > header')) {
+        return;
+      }
+
+      const script = document.currentScript;
+      const body = document.body;
+      const head = document.head || (() => {
+        const createdHead = document.createElement('head');
+        document.documentElement.insertBefore(createdHead, body);
+        return createdHead;
+      })();
+
+      if (!head.querySelector("link[rel='stylesheet'][href$='assets/style.css']")) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = './assets/style.css';
+        head.appendChild(link);
+      }
+
+      const collected = [];
+      let cursor = body.firstChild;
+      while (cursor && cursor !== script) {
+        const next = cursor.nextSibling;
+        collected.push(cursor);
+        body.removeChild(cursor);
+        cursor = next;
+      }
+
+      const cleaned = collected.filter((node) => {
+        if (node.nodeType !== Node.TEXT_NODE) return true;
+        const text = node.textContent.trim();
+        if (!text) return false;
+        return !/^(---|layout:|title:)/.test(text);
+      });
+
+      const container = document.createElement('div');
+      container.className = 'container';
+
+      const header = document.createElement('header');
+      const heading = document.createElement('h1');
+      heading.textContent = 'TennIQ';
+      header.appendChild(heading);
+      container.appendChild(header);
+
+      cleaned.forEach((node) => container.appendChild(node));
+
+      const footer = document.createElement('footer');
+      footer.textContent = `© ${new Date().getFullYear()} TennIQ`;
+      container.appendChild(footer);
+
+      body.insertBefore(container, script);
+      document.title = titleText;
+    };
+
+    ensureLayout('お問い合わせありがとうございました | TennIQ');
+  })();
+</script>

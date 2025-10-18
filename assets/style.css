@@ -1,4 +1,4 @@
-/* Tennis Advisor — Wimbledon theme
+/* TennIQ — Wimbledon theme
    AppColor と同じパレット（ライト/ダーク自動切替）
    背景=クリーム, 見出し=深緑, リンク=紫, 枠=淡いセパレータ
 */
@@ -177,8 +177,15 @@ a:hover { text-decoration-thickness: 2px; filter: brightness(1.05); }
   margin-left: 6px;
   font-size: .9em;
 }
+.field .opt{
+  color: var(--text2);
+  font-weight: 700;
+  margin-left: 6px;
+  font-size: .9em;
+}
 input[type="text"],
 input[type="email"],
+select,
 textarea{
   width: 100%;
   padding: 10px 12px;
@@ -189,12 +196,22 @@ textarea{
   outline: none;
   box-shadow: inset 0 1px 0 rgba(0,0,0,.02);
 }
+select{
+  appearance: none;
+  padding-right: 36px;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, #0000 50%, var(--text2) 50%), linear-gradient(135deg, var(--text2) 50%, #0000 50%);
+  background-position: calc(100% - 16px) calc(50% - 3px), calc(100% - 11px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
 textarea{ resize: vertical; min-height: 140px; }
 input::placeholder, textarea::placeholder{ color: color-mix(in oklab, var(--text2) 85%, #0000); }
-input:focus, textarea:focus{
+input:focus, select:focus, textarea:focus{
   border-color: color-mix(in oklab, var(--accent2) 70%, #0000);
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent2) 15%, #0000);
 }
+select:focus{ outline: none; }
 
 .grid2{
   display: grid;

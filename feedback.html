@@ -1,50 +1,127 @@
 ---
 layout: base
-title: 機能要望フォーム
+title: お問い合わせフォーム
 ---
 
 <section class="card">
-  <h2>機能要望フォーム</h2>
-  <p class="desc">いただいたご意見は、今後の改善に活用させていただきます。</p>
+  <h2>お問い合わせフォーム</h2>
+  <p class="desc">アプリに関するご質問・不具合の報告・機能のご要望はこちらからお送りください。サブスクリプションをご契約中の場合は、3営業日以内にサポートより返信いたします。</p>
 
-  <form id="fb" action="https://formspree.io/f/mwpnzrld" method="POST" novalidate>
+  <form id="fb" action="https://formspree.io/f/mwpnzrld" method="POST">
     <div class="field">
-      <label for="message"><strong>ご要望・改善してほしい点</strong> <span class="req">必須</span></label>
-      <textarea id="message" name="message" required rows="6"
-        placeholder="例）ポイント入力のUIで◯◯がしたい、統計で△△を見たい など"></textarea>
+      <label for="email">返信先メールアドレス <span class="req">必須</span></label>
+      <input id="email" type="email" name="email" placeholder="your@example.com" required />
     </div>
 
-    <div class="grid2">
-      <div class="field">
-        <label for="email">メール（任意・返信は原則おこないません）</label>
-        <input id="email" type="email" name="email" placeholder="your@example.com" />
-      </div>
-      <div class="field">
-        <label for="device">端末 / iOS（任意）</label>
-        <input id="device" type="text" name="device" placeholder="iPhone 15 / iOS 17.5 など" />
-      </div>
+    <div class="field">
+      <label for="subscription">サブスクリプション契約状況 <span class="req">必須</span></label>
+      <select id="subscription" name="subscription" required>
+        <option value="" disabled selected>選択してください</option>
+        <option value="契約中">契約中</option>
+        <option value="検討中">検討中</option>
+        <option value="未契約">未契約</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="category">お問い合わせ種別 <span class="req">必須</span></label>
+      <select id="category" name="category" required>
+        <option value="" disabled selected>選択してください</option>
+        <option value="サブスクリプション問い合わせ">サブスクリプション問い合わせ</option>
+        <option value="不具合の報告">不具合の報告</option>
+        <option value="機能の要望">機能の要望</option>
+        <option value="その他のお問い合わせ">その他のお問い合わせ</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="message"><strong>お問い合わせ内容</strong> <span class="req">必須</span></label>
+      <textarea id="message" name="message" required rows="6"
+        placeholder="例）お問い合わせの詳細や必要な対応、再現手順 など"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="device">端末 / iOSバージョン <span class="opt">任意</span></label>
+      <input id="device" type="text" name="device" placeholder="iPhone 15 / iOS 17.5 など" />
     </div>
 
     <!-- スパム対策（ハニーポット） -->
     <input type="text" name="_gotcha" style="display:none" />
 
     <!-- 件名 / 言語 / 送信後の遷移先 -->
-    <input type="hidden" name="_subject" value="Tennis Advisor: 機能要望" />
+    <input type="hidden" name="_subject" value="TennIQ: お問い合わせ" />
     <input type="hidden" name="_language" value="ja" />
-    <input type="hidden" name="_redirect" value="https://yoshitaka1015.github.io/tennis-advisor/feedback.html?sent=1" />
+    <input type="hidden" name="_redirect" value="{{ '/feedback.html?sent=1' | absolute_url }}" />
 
     <button type="submit" class="btn">送信する</button>
   </form>
 
   <div id="thanks" class="hidden" aria-live="polite">
     <h3>ありがとうございます！</h3>
-    <p>送信が完了しました。いただいた内容は今後の改善に活用させていただきます。</p>
+    <p>送信が完了しました。サブスクリプション契約中のお客様には3営業日以内にメールでご返信します。</p>
     <a class="btn secondary" href="./">トップへ戻る</a>
   </div>
 </section>
 
 <script>
   (function () {
+    const ensureLayout = (titleText) => {
+      if (document.querySelector('body > .container > header')) {
+        return;
+      }
+
+      const script = document.currentScript;
+      const body = document.body;
+      const head = document.head || (() => {
+        const createdHead = document.createElement('head');
+        document.documentElement.insertBefore(createdHead, body);
+        return createdHead;
+      })();
+
+      if (!head.querySelector("link[rel='stylesheet'][href$='assets/style.css']")) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = './assets/style.css';
+        head.appendChild(link);
+      }
+
+      const collected = [];
+      let cursor = body.firstChild;
+      while (cursor && cursor !== script) {
+        const next = cursor.nextSibling;
+        collected.push(cursor);
+        body.removeChild(cursor);
+        cursor = next;
+      }
+
+      const cleaned = collected.filter((node) => {
+        if (node.nodeType !== Node.TEXT_NODE) return true;
+        const text = node.textContent.trim();
+        if (!text) return false;
+        return !/^(---|layout:|title:)/.test(text);
+      });
+
+      const container = document.createElement('div');
+      container.className = 'container';
+
+      const header = document.createElement('header');
+      const heading = document.createElement('h1');
+      heading.textContent = 'TennIQ';
+      header.appendChild(heading);
+      container.appendChild(header);
+
+      cleaned.forEach((node) => container.appendChild(node));
+
+      const footer = document.createElement('footer');
+      footer.textContent = `© ${new Date().getFullYear()} TennIQ`;
+      container.appendChild(footer);
+
+      body.insertBefore(container, script);
+      document.title = titleText;
+    };
+
+    ensureLayout('お問い合わせフォーム | TennIQ');
+
     const params = new URLSearchParams(window.location.search);
     if (params.get('sent') === '1') {
       document.getElementById('fb')?.classList.add('hidden');

@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TennIQ — テニスを、科学する。</title>
+  <title>TennIQ — テニスを科学する。</title>
   <meta name="description" content="TennIQ は試合を記録するだけで強み・弱みを可視化。データでテニスの成長を加速させるiPhoneアプリです。" />
-  <meta property="og:title" content="TennIQ — テニスを、科学する。" />
+  <meta property="og:title" content="TennIQ — テニスを科学する。" />
   <meta property="og:description" content="試合を記録するだけで強み・弱みが見えてくる。データでテニスの弱点を可視化。" />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -97,7 +97,7 @@
     .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
     .hero h1 {
-      font-size: clamp(1.7rem, 6vw, 3.2rem); font-weight: 800;
+      font-size: clamp(2rem, 6vw, 3.2rem); font-weight: 800;
       line-height: 1.2; letter-spacing: -.02em;
       margin-bottom: 16px; white-space: nowrap;
     }
@@ -346,7 +346,7 @@
   <header class="hero">
     <div class="wrap">
       <div class="hero-badge"><span class="dot"></span>iOS App</div>
-      <h1>テニスを、<span class="gr">科学する。</span></h1>
+      <h1>テニスを<span class="gr">科学する。</span></h1>
       <p class="hero-sub">試合を記録するだけで、強み・弱みが見えてくる。<br>データで弱点を可視化し、テニスIQを鍛えよう。</p>
       <a class="hero-cta" href="https://apps.apple.com/" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -512,6 +512,7 @@
       <a href="./feedback.html">お問い合わせ</a>
     </div>
     <p>&copy; 2025 TennIQ</p>
+    <p style="margin-top:8px;font-size:0.7rem;color:var(--text2);opacity:.7;">画面は開発中のイメージを含みます</p>
   </footer>
 
   <script>
@@ -743,13 +744,15 @@
       col.className = 'bp-col';
 
       const catKeys = ['active','opponentError','opponentWinner','fhError','bhError','doubleFault'];
+      const total = catKeys.reduce((s, k) => s + d[k], 0);
       catKeys.forEach(key => {
         const seg = document.createElement('div');
         seg.className = 'bp-segment';
-        const pct = d[key] * 100;
+        const normalized = d[key] / total;
+        const pct = normalized * 100;
         seg.style.height = pct + '%';
         seg.style.background = bpCategories.find(c => c.id === key).color;
-        if (pct >= 10) {
+        if (pct >= 8) {
           const lbl = document.createElement('span');
           lbl.className = 'bp-seg-label';
           lbl.textContent = Math.round(pct) + '%';

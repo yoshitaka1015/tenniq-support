@@ -8,94 +8,247 @@
 
   <!-- OGP -->
   <meta property="og:title" content="テニスIQ+ 試合共有">
-  <meta property="og:description" content="タップして試合の詳細を見てみましょう🎾">
+  <meta property="og:description" content="タップして試合の詳細を見てみましょう">
   <meta property="og:image" content="https://yoshitaka1015.github.io/tennis-iq-plus/assets/images/ogp-icon.png">
   <meta property="og:type" content="website">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="テニスIQ+ 試合共有">
-  <meta name="twitter:description" content="タップして試合の詳細を見てみましょう🎾">
+  <meta name="twitter:description" content="タップして試合の詳細を見てみましょう">
   <meta name="twitter:image" content="https://yoshitaka1015.github.io/tennis-iq-plus/assets/images/ogp-icon.png">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Noto+Sans+JP:wght@400;600;800&display=swap" rel="stylesheet">
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* ダークモードベースの配色 */
+      --bg: #0A0C0B;
+      --bg2: #111413;
+      --card: #171A19;
+      --text: #F0F1EE;
+      --text2: #8E918B;
+      --accent: #4CA96A;
+      --accent2: #B18AD3;
+      --accent-light: rgba(76,169,106,.15);
+      --accent2-light: rgba(177,138,211,.15);
+      --sep: #252826;
+      --radius: 16px;
+      --font: 'Outfit', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: #fff;
+      padding: 20px;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 80%, var(--accent-light), transparent),
+        radial-gradient(ellipse 50% 40% at 80% 20%, var(--accent2-light), transparent),
+        var(--bg);
     }
+
     .container {
       text-align: center;
-      padding: 40px 20px;
       max-width: 400px;
+      width: 100%;
     }
-    .icon {
-      width: 100px;
-      height: 100px;
-      background: linear-gradient(135deg, #00d4aa 0%, #00a8e8 100%);
-      border-radius: 22px;
-      margin: 0 auto 24px;
-      display: flex;
+
+    .brand-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 28px;
+      filter: drop-shadow(0 4px 16px rgba(76,169,106,0.3));
+    }
+
+    .badge {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      font-size: 48px;
+      gap: 6px;
+      padding: 4px 14px 4px 6px;
+      border-radius: 999px;
+      background: var(--card);
+      border: 1px solid var(--sep);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text2);
+      margin-bottom: 20px;
     }
+    .badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+
     h1 {
-      font-size: 28px;
-      font-weight: 700;
+      font-size: 1.8rem;
+      font-weight: 800;
+      line-height: 1.3;
       margin-bottom: 12px;
     }
+    h1 .gr {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
     .subtitle {
-      font-size: 16px;
-      color: rgba(255,255,255,0.7);
+      font-size: 1rem;
+      color: var(--text2);
       margin-bottom: 32px;
       line-height: 1.6;
     }
-    .app-store-btn {
-      display: inline-block;
-      background: #007AFF;
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      max-width: 300px;
+      height: 52px;
+      padding: 0 28px;
+      border-radius: 999px;
+      background: var(--accent);
       color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
       text-decoration: none;
-      padding: 16px 32px;
-      border-radius: 12px;
-      font-size: 17px;
-      font-weight: 600;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 4px 24px rgba(76,169,106,.35);
     }
-    .app-store-btn:hover {
+    .cta-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0,122,255,0.3);
+      box-shadow: 0 6px 32px rgba(76,169,106,.45);
     }
+    .cta-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
     .note {
-      margin-top: 24px;
-      font-size: 13px;
-      color: rgba(255,255,255,0.5);
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: var(--text2);
+    }
+
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--sep);
+    }
+    .feature {
+      text-align: center;
+    }
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 8px;
+      color: var(--accent);
+    }
+    .feature-label {
+      font-size: 0.75rem;
+      color: var(--text2);
+      font-weight: 600;
+    }
+
+    .footer-links {
+      margin-top: 48px;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: 0.75rem;
+      color: var(--text2);
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: var(--accent2);
     }
   </style>
+
   <script>
-    // アプリがインストールされていない場合、App Storeへリダイレクト
+    // アプリがインストールされていない場合、数秒後にApp Storeへリダイレクト
     setTimeout(function() {
       window.location.href = "https://apps.apple.com/app/id6753627503";
-    }, 1500);
+    }, 2500);
   </script>
 </head>
 <body>
   <div class="container">
-    <div class="icon">🎾</div>
-    <h1>テニスIQ+</h1>
+    <img src="../assets/images/brandicon.png" alt="テニスIQ+" class="brand-icon">
+
+    <div class="badge"><span class="dot"></span>試合共有</div>
+
+    <h1>試合詳細を<span class="gr">確認しよう</span></h1>
+
     <p class="subtitle">
-      試合詳細を確認するには<br>
-      アプリをインストールしてください
+      この試合の詳細を見るには<br>
+      テニスIQ+アプリが必要です
     </p>
-    <a href="https://apps.apple.com/app/id6753627503" class="app-store-btn">
+
+    <a href="https://apps.apple.com/app/id6753627503" class="cta-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
       App Storeでダウンロード
     </a>
-    <p class="note">自動的にApp Storeに移動します...</p>
+
+    <p class="note">自動的にApp Storeへ移動します...</p>
+
+    <div class="features">
+      <div class="feature">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M9 14l2 2 4-4"/>
+        </svg>
+        <div class="feature-label">試合記録</div>
+      </div>
+      <div class="feature">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 3v18h18"/>
+          <path d="M7 16l4-8 4 4 6-8"/>
+        </svg>
+        <div class="feature-label">統計分析</div>
+      </div>
+      <div class="feature">
+        <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 00-3-3.87"/>
+          <path d="M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+        <div class="feature-label">共有</div>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <a href="../privacy.html">プライバシーポリシー</a>
+      <a href="../terms.html">利用規約</a>
+    </div>
   </div>
 </body>
 </html>

@@ -2,3 +2,6 @@
 title: TennIQ
 description: テニスの試合記録アプリ
 markdown: kramdown
+
+# Universal Links用: .well-knownディレクトリを含める
+include: [".well-known"]

@@ -1,0 +1,9 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [{
+      "appID": "4S7JQC7MZX.com.tbsk.TenniQ",
+      "paths": ["/tennis-iq-plus/match/*"]
+    }]
+  }
+}
